@@ -1,0 +1,1432 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Sensordaten Tinkerforge</title>
+    <style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+    .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+    .tg .tg-0lax{text-align:left;vertical-align:top}
+    </style>
+
+    <!-- import plugin script -->
+    <script src='static/Chart.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="static/Chart.css">
+    <script type="text/javascript">
+window.onload = function() {
+//
+Chart.defaults.global.responsive = false;
+
+// define the chart data
+var chartData0 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+<!--    labels : ['a','b','c'],-->
+  datasets : [{
+      label: '{{ legend0 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in owbsdt_betrag_erst_ab %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false,
+  }]
+}
+
+// get chart canvas
+var ctx0 = document.getElementById("owbsdt_betrag_erst_ab").getContext("2d");
+// create the chart using the chart canvas
+var myChart0 = new Chart(ctx0, {
+  type: 'line',
+  data: chartData0,
+  options: {
+    title: {
+      display: false,
+      text: '{{ legend0 }}'
+    },
+    	scales: {
+        	yAxes: [{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Temperaturveränderung zum Vortag'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 200000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+
+// define the chart data
+var chartData1 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend1 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in outdoor_weather_bricklet_V2_station_data_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false,
+  }]
+}
+ 
+// get chart canvas
+var ctx1 = document.getElementById("outdoor_weather_bricklet_V2_station_data_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx1, {
+  type: 'line',
+  data: chartData1,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 45
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Temperaturveränderung'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                    maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+
+// define the chart data
+var chartData2 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend2 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in outdoor_weather_bricklet_V2_station_data_humidity %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx2 = document.getElementById("outdoor_weather_bricklet_V2_station_data_humidity").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx2, {
+  type: 'line',
+  data: chartData2,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 100
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Luftfeuchtigkeit'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks:{
+                    maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData3 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend3 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in outdoor_weather_bricklet_V2_sensor_data_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx3 = document.getElementById("outdoor_weather_bricklet_V2_sensor_data_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx3, {
+  type: 'line',
+  data: chartData3,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 45
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Temperaturveränderung'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks:{
+                    maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData4 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend4 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in outdoor_weather_bricklet_V2_sensor_data_humidity %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx4 = document.getElementById("outdoor_weather_bricklet_V2_sensor_data_humidity").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx4, {
+  type: 'line',
+  data: chartData4,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 100
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Luftfeuchtigkeit'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData5 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend5 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in temperature_ir_bricklet_v2_ambient_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx5 = document.getElementById("temperature_ir_bricklet_v2_ambient_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx5, {
+  type: 'line',
+  data: chartData5,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 45
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Veränderung der Umgebungstemperatur'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData6 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend6 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in temperature_ir_bricklet_v2_object_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx6 = document.getElementById("temperature_ir_bricklet_v2_object_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx6, {
+  type: 'line',
+  data: chartData6,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 45
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Objekttemperaturveränderung'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData7 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend7 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in co2_V2_bricklet_co2_concentration %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx7 = document.getElementById("co2_V2_bricklet_co2_concentration").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx7, {
+  type: 'line',
+  data: chartData7,
+  options: {
+    	scales: {
+    	    yAxes: [{
+        	 display: true,
+                 scaleLabel: {
+                  display: true,
+                  labelString: 'CO2 Konzentration'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData8 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend8 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in co2_V2_bricklet_co2_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx8 = document.getElementById("co2_V2_bricklet_co2_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx8, {
+  type: 'line',
+  data: chartData8,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 45
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Temperaturveränderung'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData9 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend9 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in co2_V2_bricklet_co2_humidity %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx9 = document.getElementById("co2_V2_bricklet_co2_humidity").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx9, {
+  type: 'line',
+  data: chartData9,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 100
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Luftfeuchtigkeit'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData10 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend10 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in humidity_bricklet_V2_humidity %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx10 = document.getElementById("humidity_bricklet_V2_humidity").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx10, {
+  type: 'line',
+  data: chartData10,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 100
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Luftfeuchtigkeit'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData11 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend11 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in humidity_bricklet_V2_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx11 = document.getElementById("humidity_bricklet_V2_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx11, {
+  type: 'line',
+  data: chartData11,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 45
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Temperaturveränderung'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData12 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend12 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in sound_pressure_bricklet_decibel %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx12 = document.getElementById("sound_pressure_bricklet_decibel").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx12, {
+  type: 'line',
+  data: chartData12,
+  options: {
+    	scales: {
+    	    yAxes: [{
+        	 display: true,
+                 scaleLabel: {
+                  display: true,
+                  labelString: 'Audiopegel'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData13 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend13 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in thermal_imaging_bricklet_average_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx13 = document.getElementById("thermal_imaging_bricklet_average_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx13, {
+  type: 'line',
+  data: chartData13,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 50
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'durschnittliche Temperaturveränderung'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData14 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend14 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in thermal_imaging_bricklet_max_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx14 = document.getElementById("thermal_imaging_bricklet_max_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx14, {
+  type: 'line',
+  data: chartData14,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 50
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'maximale Temperaturveränderung'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData15 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend15 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in thermal_imaging_bricklet_min_temperature %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx15 = document.getElementById("thermal_imaging_bricklet_min_temperature").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx15, {
+  type: 'line',
+  data: chartData15,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 50
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'minimale Temperaturveränderung'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData16 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend16 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in outdoor_weather_bricklet_V2_station_data_rain %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx16 = document.getElementById("outdoor_weather_bricklet_V2_station_data_rain").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx16, {
+  type: 'line',
+  data: chartData16,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 100
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Regenmenge in Liter seit Aufzeichnungsbeginn'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});
+
+// define the chart data
+var chartData17 = {
+  labels : [{% for item in labels %}
+             "{{item}}",
+            {% endfor %}],
+  datasets : [{
+      label: '{{ legend17 }}',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data : [{% for item in refraktometer_value %}
+                {{item}},
+              {% endfor %}],
+      spanGaps: false
+  }]
+}
+// get chart canvas
+var ctx17 = document.getElementById("refraktometer").getContext("2d");
+// create the chart using the chart canvas
+var myChart = new Chart(ctx17, {
+  type: 'line',
+  data: chartData17,
+  options: {
+    	scales: {
+        	yAxes: [{
+            	ticks: {
+                	beginAtZero: true,
+                	max: 30
+            	},
+            	scaleLabel: {
+                  display: true,
+                  labelString: 'Wasseranteil im Honig in %'
+                }
+        	}],
+        	xAxes:[{
+        	    display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Zeitstrahl ' + ({{day_scaling}}?'auf Tagesbasis':'auf Stundenbasis'),
+                },
+                ticks: {
+                  maxTicksLimit: 10000,
+                    callback: function(value, index, ticks) {
+                          if (value.includes(":00") & !{{day_scaling}}){
+                            return value.substring(6);
+                          }else if (value.includes("12:00") & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 & {{day_scaling}}){
+                            return value;
+                          }else if (index === 0 && !{{day_scaling}}){
+                            return value.substring(6);
+                          }
+                          else{
+                            return null;
+                          }
+                        }
+                }
+            }]
+    	}
+	}
+});};
+</script>
+</head>
+<body>
+    <form method=post>
+        <div>
+            <dl style="float:left;margin-top: 0px;margin-right:10px">
+                {{ nav_form.start }}
+                {{ nav_form.daybefore }}
+                {{ nav_form.nextday }}
+                {{ nav_form.end }}
+                {{ nav_form.all }}
+            </dl>
+            <div style="padding-top:3px;margin-left:15px;color:green">{{ nav_form.datum }} </div>
+        </div>
+        <h1 style="color:red;text-align:center">Bienchen Auswertungen</h1>
+    </form>
+    <table class="tg">
+      <tr>
+        <th class="tg-0lax"> <canvas id="outdoor_weather_bricklet_V2_station_data_temperature" width="600" height="400"></canvas></th>
+          <th class="tg-0lax"> <canvas id="owbsdt_betrag_erst_ab" width="600" height="400"></canvas></th>
+        <td class="tg-0lax"><canvas id="temperature_ir_bricklet_v2_ambient_temperature" width="600" height="400"></canvas></td>
+        <td class="tg-0lax"><canvas id="co2_V2_bricklet_co2_humidity" width="600" height="400"></canvas></td>
+        <td class="tg-0lax"><canvas id="thermal_imaging_bricklet_average_temperature" width="600" height="400"></canvas></td>
+      </tr>
+      <tr>
+        <th class="tg-0lax"><canvas id="outdoor_weather_bricklet_V2_station_data_humidity" width="600" height="400"></canvas></th>
+        <td class="tg-0lax"><canvas id="temperature_ir_bricklet_v2_object_temperature" width="600" height="400"></canvas></td>
+        <td class="tg-0lax"><canvas id="outdoor_weather_bricklet_V2_station_data_rain" width="600" height="400"></canvas></td>
+        <td class="tg-0lax"><canvas id="co2_V2_bricklet_co2_concentration" width="600" height="400"></canvas></td>
+        <td class="tg-0lax"><canvas id="thermal_imaging_bricklet_max_temperature" width="600" height="400"></canvas></td>
+      </tr>
+      <tr>
+        <th class="tg-0lax"><canvas id="outdoor_weather_bricklet_V2_sensor_data_temperature" width="600" height="400"></canvas></th>
+        <td class="tg-0lax"><canvas id="humidity_bricklet_V2_temperature" width="600" height="400"></canvas></td>
+        <td class="tg-0lax"><canvas id="co2_V2_bricklet_co2_temperature" width="600" height="400"></canvas></td>
+        <td class="tg-0lax"><canvas id="thermal_imaging_bricklet_min_temperature" width="600" height="400"></canvas>
+        <td class="tg-0lax"><canvas id="refraktometer" width="600" height="400"></canvas>
+      </tr>
+      <tr>
+        <th class="tg-0lax"><canvas id="outdoor_weather_bricklet_V2_sensor_data_humidity" width="600" height="400"></canvas></th>
+        <td class="tg-0lax"><canvas id="humidity_bricklet_V2_humidity" width="600" height="400"></canvas></td>
+        <td class="tg-0lax"><canvas id="sound_pressure_bricklet_decibel" width="600" height="400"></canvas></td>
+      </tr>
+    </table>
+</body>
+</html>
